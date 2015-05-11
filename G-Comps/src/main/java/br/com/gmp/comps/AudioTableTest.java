@@ -12,15 +12,13 @@ import java.util.logging.Logger;
  */
 public class AudioTableTest extends javax.swing.JFrame {
 
-    private String dir = "/home/kaciano/mp3/";
-
     /**
      * Creates new form AudioTableTest
      * @throws java.lang.Exception
      */
     public AudioTableTest() throws Exception {
         initComponents();
-        List<AudioFile> convert = AudioConverter.convert(dir);
+        List<AudioFile> convert = AudioConverter.convert("/home/kaciano/mp3/");
         gPlayer.setNavigate(true);
         gPlayer.build(convert);
     }

@@ -1,5 +1,12 @@
 package br.com.gmp.comps;
 
+import br.com.gmp.utils.audio.file.AudioFile;
+import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 /**
  *
  * @author kaciano
@@ -7,29 +14,38 @@ package br.com.gmp.comps;
 public class AudioTest extends javax.swing.JFrame {
 
     public AudioTest() {
-        initComponents();
-        gPlayer.build("/home/kaciano/mp3/test.mp3");
+
+        try {
+            List<AudioFile> convert = new ArrayList<>();
+            initComponents();
+            gPlaylist1.getPlaylistModel().add(new AudioFile("Teste", "Teste", "Teste", "Teste", new File("/home/kaciano/mp3/test.mp3")));
+        } catch (Exception ex) {
+            Logger.getLogger(AudioTest.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        gPlayer = new br.com.gmp.comps.player.GPlayer();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        gPlaylist1 = new br.com.gmp.comps.audioplayer.playlist.GPlaylist();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Teste de audio");
         setResizable(false);
 
+        jScrollPane1.setViewportView(gPlaylist1);
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(gPlayer, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 195, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(gPlayer, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 163, Short.MAX_VALUE)
         );
 
         pack();
@@ -57,6 +73,7 @@ public class AudioTest extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private br.com.gmp.comps.player.GPlayer gPlayer;
+    private br.com.gmp.comps.audioplayer.playlist.GPlaylist gPlaylist1;
+    private javax.swing.JScrollPane jScrollPane1;
     // End of variables declaration//GEN-END:variables
 }

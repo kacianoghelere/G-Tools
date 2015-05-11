@@ -19,7 +19,7 @@ public class GListModel<T> extends AbstractListModel<T> {
      * Cria nova instancia de GListModel
      */
     public GListModel() {
-        data = new ArrayList<>();
+        this.data = new ArrayList<>();
     }
 
     /**
