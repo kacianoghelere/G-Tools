@@ -54,6 +54,9 @@ public class GPlaylistItem extends JPanel {
      */
     private void initialize() {
         initComponents();
+        jLTitle.setText(title);
+        jLLength.setText(length);
+        jLInfo.setText(info);
     }
 
     @SuppressWarnings("unchecked")
@@ -64,8 +67,8 @@ public class GPlaylistItem extends JPanel {
         jLLength = new javax.swing.JLabel();
         jLInfo = new javax.swing.JLabel();
 
-        setMinimumSize(new java.awt.Dimension(220, 42));
-        setPreferredSize(new java.awt.Dimension(220, 42));
+        setMinimumSize(new java.awt.Dimension(160, 42));
+        setPreferredSize(new java.awt.Dimension(180, 42));
 
         jLTitle.setFont(new java.awt.Font("Ubuntu", 1, 12)); // NOI18N
         jLTitle.setText("Title");
@@ -82,7 +85,7 @@ public class GPlaylistItem extends JPanel {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addComponent(jLTitle, javax.swing.GroupLayout.DEFAULT_SIZE, 169, Short.MAX_VALUE)
+                .addComponent(jLTitle, javax.swing.GroupLayout.DEFAULT_SIZE, 129, Short.MAX_VALUE)
                 .addGap(0, 0, 0)
                 .addComponent(jLLength, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE))
             .addComponent(jLInfo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)

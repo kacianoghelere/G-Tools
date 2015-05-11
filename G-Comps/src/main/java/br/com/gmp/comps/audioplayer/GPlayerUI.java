@@ -6,8 +6,6 @@ import br.com.gmp.basicplayer.BasicPlayerEvent;
 import br.com.gmp.basicplayer.BasicPlayerException;
 import br.com.gmp.basicplayer.BasicPlayerListener;
 import java.io.File;
-import java.net.MalformedURLException;
-import java.net.URL;
 import java.util.Arrays;
 import java.util.Map;
 import java.util.logging.Level;
@@ -84,6 +82,7 @@ public class GPlayerUI extends JPanel implements BasicPlayerListener {
         jBPause = new javax.swing.JButton();
         jBStop = new javax.swing.JButton();
         jButton5 = new javax.swing.JButton();
+        jButton6 = new javax.swing.JButton();
         jTextField1 = new javax.swing.JTextField();
         gFileField1 = new br.com.gmp.comps.textfield.file.GFileField();
 
@@ -134,6 +133,12 @@ public class GPlayerUI extends JPanel implements BasicPlayerListener {
         jButton5.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         jButton5.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
         jToolBar1.add(jButton5);
+
+        jButton6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ComponentIcons/player/media_podcast.png"))); // NOI18N
+        jButton6.setFocusable(false);
+        jButton6.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        jButton6.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        jToolBar1.add(jButton6);
 
         jTextField1.setBackground(new java.awt.Color(68, 68, 68));
         jTextField1.setForeground(new java.awt.Color(236, 236, 236));
@@ -213,6 +218,7 @@ public class GPlayerUI extends JPanel implements BasicPlayerListener {
     private javax.swing.JButton jBStop;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton5;
+    private javax.swing.JButton jButton6;
     private javax.swing.JTextField jTextField1;
     private javax.swing.JToolBar jToolBar1;
     // End of variables declaration//GEN-END:variables

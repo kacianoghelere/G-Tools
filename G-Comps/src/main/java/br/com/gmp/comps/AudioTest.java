@@ -1,8 +1,8 @@
 package br.com.gmp.comps;
 
+import br.com.gmp.comps.model.GListModel;
+import br.com.gmp.utils.audio.file.AudioConverter;
 import br.com.gmp.utils.audio.file.AudioFile;
-import java.io.File;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -13,12 +13,13 @@ import java.util.logging.Logger;
  */
 public class AudioTest extends javax.swing.JFrame {
 
-    public AudioTest() {
+    GListModel<AudioFile> model;
 
+    public AudioTest() {
         try {
-            List<AudioFile> convert = new ArrayList<>();
+            List<AudioFile> convert = AudioConverter.convert("/home/kaciano/mp3/");
+            model = new GListModel<>(convert);
             initComponents();
-            gPlaylist1.getPlaylistModel().add(new AudioFile("Teste", "Teste", "Teste", "Teste", new File("/home/kaciano/mp3/test.mp3")));
         } catch (Exception ex) {
             Logger.getLogger(AudioTest.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -30,27 +31,45 @@ public class AudioTest extends javax.swing.JFrame {
 
         jScrollPane1 = new javax.swing.JScrollPane();
         gPlaylist1 = new br.com.gmp.comps.audioplayer.playlist.GPlaylist();
+        gAudioPlayerDisplay1 = new br.com.gmp.comps.audioplayer.display.GAudioPlayerDisplay();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Teste de audio");
         setResizable(false);
 
+        gPlaylist1.setModel(model     );
+        gPlaylist1.addListSelectionListener(new javax.swing.event.ListSelectionListener() {
+            public void valueChanged(javax.swing.event.ListSelectionEvent evt) {
+                gPlaylist1ValueChanged(evt);
+            }
+        });
         jScrollPane1.setViewportView(gPlaylist1);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 195, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addComponent(gAudioPlayerDisplay1, javax.swing.GroupLayout.PREFERRED_SIZE, 297, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 297, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 163, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addComponent(gAudioPlayerDisplay1, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, 0)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 89, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
         pack();
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
+
+    private void gPlaylist1ValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_gPlaylist1ValueChanged
+        if (gPlaylist1.getSelectedValue() != null) {
+            AudioFile selected = (AudioFile) gPlaylist1.getSelectedValue();
+            gAudioPlayerDisplay1.setText(selected);
+        }
+    }//GEN-LAST:event_gPlaylist1ValueChanged
 
     /**
      * @param args the command line arguments
@@ -73,6 +92,7 @@ public class AudioTest extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private br.com.gmp.comps.audioplayer.display.GAudioPlayerDisplay gAudioPlayerDisplay1;
     private br.com.gmp.comps.audioplayer.playlist.GPlaylist gPlaylist1;
     private javax.swing.JScrollPane jScrollPane1;
     // End of variables declaration//GEN-END:variables

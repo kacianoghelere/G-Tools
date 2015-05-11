@@ -57,8 +57,10 @@ public class AudioConverter {
         if (!dir.exists() || !dir.isDirectory()) {
             throw new Exception("O caminho indicado não é um diretório");
         }
+        int track = 1;
         for (File file : dir.listFiles(new AudioFileFilter(false))) {
             AudioFile audioFile = new AudioFile(file);
+            audioFile.setTrack(String.valueOf(track++));
             tracks.add(audioFile);
         }
         return tracks;
