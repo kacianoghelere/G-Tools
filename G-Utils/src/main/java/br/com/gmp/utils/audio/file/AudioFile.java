@@ -83,6 +83,9 @@ public class AudioFile implements Comparable<AudioFile> {
         try {
             MP3File mp3File = new MP3File(file);
             ID3v1Tag tag = mp3File.getID3v1Tag();
+            if (tag.getFirstArtwork() != null) {
+                System.out.println("URL: " + tag.getFirstArtwork().getImageUrl());
+            }
             MP3AudioHeader header = mp3File.getMP3AudioHeader();
 
             this.title = tag != null ? tag.getFirst(FieldKey.TITLE) + "" : file.getName() + "";
