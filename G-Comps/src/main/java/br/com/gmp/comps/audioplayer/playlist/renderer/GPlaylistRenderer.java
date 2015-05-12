@@ -16,12 +16,11 @@ import javax.swing.ListCellRenderer;
 public class GPlaylistRenderer extends JLabel implements ListCellRenderer {
 
     @Override
-    public Component getListCellRendererComponent(JList list, Object value, int index, boolean isSelected, boolean cellHasFocus) {
+    public Component getListCellRendererComponent(JList list, Object value, int index, boolean selected, boolean focus) {
         AudioFile file = (AudioFile) value;
-        GPlaylistItem item = new GPlaylistItem(file);        
-        if (isSelected) {
-            item.setBackground(Color.lightGray);
-        }
+        GPlaylistItem item = new GPlaylistItem(file);
+        item.setBackground(selected ? Color.lightGray : item.getBackground());
+        item.setForeground(file.isExecuting() ? Color.GREEN.darker() : item.getBackground());
         return item;
     }
 

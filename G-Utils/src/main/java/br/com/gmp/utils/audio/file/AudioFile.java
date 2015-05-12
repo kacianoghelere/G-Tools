@@ -40,6 +40,8 @@ public class AudioFile implements Comparable<AudioFile> {
     private String encoding;
     @Ignore
     private String path;
+    @Ignore
+    private boolean executing;
 
     /**
      * Cria nova instancia de AudioFile
@@ -259,6 +261,24 @@ public class AudioFile implements Comparable<AudioFile> {
      */
     public void setPath(String path) {
         this.path = path;
+    }
+
+    /**
+     * Retorna se o arquivo esta sendo executado
+     *
+     * @return {@code boolean} Esta sendo executado?
+     */
+    public boolean isExecuting() {
+        return executing;
+    }
+
+    /**
+     * Modifica se o arquivo esta sendo executado
+     *
+     * @param executing {@code boolean} Esta sendo executado?
+     */
+    public void setExecuting(boolean executing) {
+        this.executing = executing;
     }
 
     @Override

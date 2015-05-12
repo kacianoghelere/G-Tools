@@ -172,6 +172,7 @@ public class GPlayerUI extends JPanel implements BasicPlayerListener {
         if (gFileField1.getSelectedFile() != null) {
             if (soundPlayer == null) {
                 this.soundPlayer = new BasicPlayer();
+                ((BasicPlayer) soundPlayer).addBasicPlayerListener(this);
             }
             try {
                 this.soundPlayer = new BasicPlayer();

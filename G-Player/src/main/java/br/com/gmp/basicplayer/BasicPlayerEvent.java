@@ -27,17 +27,53 @@ package br.com.gmp.basicplayer;
  */
 public class BasicPlayerEvent {
 
+    /**
+     * Desconhecido
+     */
     public static final int UNKNOWN = -1;
+    /**
+     * Aguardando
+     */
     public static final int OPENING = 0;
+    /**
+     * Iniciado
+     */
     public static final int OPENED = 1;
+    /**
+     * Reproduzindo
+     */
     public static final int PLAYING = 2;
+    /**
+     * Parado
+     */
     public static final int STOPPED = 3;
+    /**
+     * Em pausa
+     */
     public static final int PAUSED = 4;
+    /**
+     * Reproduzindo apos pausa
+     */
     public static final int RESUMED = 5;
+    /**
+     * Procurando
+     */
     public static final int SEEKING = 6;
+    /**
+     * Encontrou
+     */
     public static final int SEEKED = 7;
+    /**
+     * 
+     */
     public static final int EOM = 8;
+    /**
+     * 
+     */
     public static final int PAN = 9;
+    /**
+     * 
+     */
     public static final int GAIN = 10;
     private int code = UNKNOWN;
     private int position = -1;

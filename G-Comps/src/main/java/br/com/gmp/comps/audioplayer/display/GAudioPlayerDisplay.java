@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package br.com.gmp.comps.audioplayer.display;
 
 import br.com.gmp.utils.audio.file.AudioFile;
@@ -22,11 +17,12 @@ public class GAudioPlayerDisplay extends JPanel {
     }
 
     public void setText(AudioFile file) {
-        jLAlbum.setText(file.getAlbum());
-        jLArtist.setText(file.getArtist());
-        jLLength.setText(file.getLength());
-        jLTitle.setText(file.getTitle());
-        jLTrack.setText(file.getTrack());
+        String album = file != null ? file.getAlbum() : "Desconhecido";
+        String artist = file != null ? file.getArtist() : "Desconhecido";
+        jLInfo.setText(artist + " - " + album);
+        jLLength.setText(file != null ? file.getLength() : "--:--");
+        jLTitle.setText(file != null ? file.getTitle() : "Desconhecido");
+        jLTrack.setText(file != null ? file.getTrack() : "--");
     }
 
     @SuppressWarnings("unchecked")
@@ -34,8 +30,7 @@ public class GAudioPlayerDisplay extends JPanel {
     private void initComponents() {
 
         jLLength = new javax.swing.JLabel();
-        jLAlbum = new javax.swing.JLabel();
-        jLArtist = new javax.swing.JLabel();
+        jLInfo = new javax.swing.JLabel();
         jLTrack = new javax.swing.JLabel();
         jLTitle = new javax.swing.JLabel();
 
@@ -43,7 +38,7 @@ public class GAudioPlayerDisplay extends JPanel {
         setToolTipText("");
         setLayout(new java.awt.BorderLayout());
 
-        jLLength.setFont(new java.awt.Font("Arial", 1, 12)); // NOI18N
+        jLLength.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
         jLLength.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLLength.setText("00:00");
         jLLength.setMaximumSize(new java.awt.Dimension(45, 15));
@@ -52,27 +47,17 @@ public class GAudioPlayerDisplay extends JPanel {
         jLLength.setPreferredSize(new java.awt.Dimension(45, 15));
         add(jLLength, java.awt.BorderLayout.LINE_END);
 
-        jLAlbum.setFont(new java.awt.Font("Arial", 2, 12)); // NOI18N
-        jLAlbum.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLAlbum.setText("Album");
-        jLAlbum.setAlignmentX(0.5F);
-        jLAlbum.setHorizontalTextPosition(javax.swing.SwingConstants.LEADING);
-        jLAlbum.setMinimumSize(new java.awt.Dimension(35, 20));
-        jLAlbum.setOpaque(true);
-        jLAlbum.setPreferredSize(new java.awt.Dimension(35, 20));
-        add(jLAlbum, java.awt.BorderLayout.PAGE_END);
+        jLInfo.setFont(new java.awt.Font("Arial", 2, 12)); // NOI18N
+        jLInfo.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLInfo.setText("Artist - Album");
+        jLInfo.setAlignmentX(0.5F);
+        jLInfo.setHorizontalTextPosition(javax.swing.SwingConstants.LEADING);
+        jLInfo.setMinimumSize(new java.awt.Dimension(35, 20));
+        jLInfo.setOpaque(true);
+        jLInfo.setPreferredSize(new java.awt.Dimension(35, 20));
+        add(jLInfo, java.awt.BorderLayout.PAGE_END);
 
-        jLArtist.setFont(new java.awt.Font("Arial", 2, 12)); // NOI18N
-        jLArtist.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLArtist.setText("Artist");
-        jLArtist.setAlignmentX(0.5F);
-        jLArtist.setHorizontalTextPosition(javax.swing.SwingConstants.LEADING);
-        jLArtist.setMinimumSize(new java.awt.Dimension(35, 20));
-        jLArtist.setOpaque(true);
-        jLArtist.setPreferredSize(new java.awt.Dimension(35, 20));
-        add(jLArtist, java.awt.BorderLayout.PAGE_START);
-
-        jLTrack.setFont(new java.awt.Font("Arial", 1, 12)); // NOI18N
+        jLTrack.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
         jLTrack.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLTrack.setText("1");
         jLTrack.setMaximumSize(new java.awt.Dimension(25, 15));
@@ -82,7 +67,7 @@ public class GAudioPlayerDisplay extends JPanel {
         jLTrack.setPreferredSize(new java.awt.Dimension(25, 15));
         add(jLTrack, java.awt.BorderLayout.WEST);
 
-        jLTitle.setFont(new java.awt.Font("Arial", 1, 12)); // NOI18N
+        jLTitle.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
         jLTitle.setText("Title");
         jLTitle.setOpaque(true);
         add(jLTitle, java.awt.BorderLayout.CENTER);
@@ -90,8 +75,7 @@ public class GAudioPlayerDisplay extends JPanel {
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JLabel jLAlbum;
-    private javax.swing.JLabel jLArtist;
+    private javax.swing.JLabel jLInfo;
     private javax.swing.JLabel jLLength;
     private javax.swing.JLabel jLTitle;
     private javax.swing.JLabel jLTrack;
