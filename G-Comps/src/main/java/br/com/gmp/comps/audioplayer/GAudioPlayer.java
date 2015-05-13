@@ -111,7 +111,7 @@ public class GAudioPlayer extends JPanel implements BasicPlayerListener {
     private void playToggle() {
         try {
             if (file == null && playlist != null && playlist.getPlaylistModel().getSize() > 0) {
-                file = playlist.getNext();
+                file = playlist.getFirst();
             }
             if (file != null) {
                 if (this.playerState == BasicPlayerEvent.OPENING || this.playerState == BasicPlayerEvent.STOPPED) {
@@ -137,6 +137,22 @@ public class GAudioPlayer extends JPanel implements BasicPlayerListener {
                 this.jBPlayPause.revalidate();
                 SwingUtilities.updateComponentTreeUI(jBPlayPause);
             }
+        } catch (BasicPlayerException ex) {
+            LOGGER.log(Level.SEVERE, null, ex);
+        }
+    }
+
+    /**
+     * Metodo de parada de reproducao
+     */
+    private void stop() {
+        try {
+            this.file = null;
+            this.soundPlayer.stop();
+            this.playerState = BasicPlayerEvent.STOPPED;
+            this.jProgressBar.setValue(0);
+            this.jProgressBar.setString("00:00");
+            this.jBPlayPause.setIcon(playIcon);
         } catch (BasicPlayerException ex) {
             LOGGER.log(Level.SEVERE, null, ex);
         }
@@ -233,7 +249,7 @@ public class GAudioPlayer extends JPanel implements BasicPlayerListener {
      */
     public void setPlaylist(GPlaylist playlist) {
         this.playlist = playlist;
-        jBNext.setEnabled(playlist != null);
+        jBStop.setEnabled(playlist != null);
         jBPrev.setEnabled(playlist != null);
     }
 
@@ -241,34 +257,56 @@ public class GAudioPlayer extends JPanel implements BasicPlayerListener {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jPTotal = new javax.swing.JPanel();
+        jPInfo = new javax.swing.JPanel();
         jPPlayer = new javax.swing.JPanel();
         display = new br.com.gmp.comps.audioplayer.display.GAudioPlayerDisplay();
+        jProgressBar = new javax.swing.JProgressBar();
         jPControls = new javax.swing.JPanel();
         jBPrev = new javax.swing.JButton();
         jBPlayPause = new javax.swing.JButton();
+        jBStop = new javax.swing.JButton();
         jBNext = new javax.swing.JButton();
         jSeparator2 = new javax.swing.JSeparator();
-        jSeparator1 = new javax.swing.JSeparator();
-        jPTrack = new javax.swing.JPanel();
-        jProgressBar = new javax.swing.JProgressBar();
         jTBRepeat = new javax.swing.JToggleButton();
         jTBShuffle = new javax.swing.JToggleButton();
+        jPGain = new javax.swing.JPanel();
         jLGainMin = new javax.swing.JLabel();
-        jSldGain = new javax.swing.JSlider();
         jLGainMax = new javax.swing.JLabel();
+        jSldGain = new javax.swing.JSlider();
 
         setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(220, 220, 220)));
-        setMaximumSize(new java.awt.Dimension(32767, 100));
-        setMinimumSize(new java.awt.Dimension(420, 110));
+        setMaximumSize(new java.awt.Dimension(32767, 160));
+        setMinimumSize(new java.awt.Dimension(420, 160));
         setName(""); // NOI18N
-        setPreferredSize(new java.awt.Dimension(420, 110));
+        setPreferredSize(new java.awt.Dimension(420, 160));
         setRequestFocusEnabled(false);
 
+        jPTotal.setMaximumSize(new java.awt.Dimension(2147483647, 160));
+        jPTotal.setMinimumSize(new java.awt.Dimension(420, 160));
+        jPTotal.setPreferredSize(new java.awt.Dimension(420, 160));
+        jPTotal.setLayout(new java.awt.BorderLayout());
+
+        jPInfo.setLayout(new java.awt.BorderLayout());
+
+        jPPlayer.setLayout(new java.awt.BorderLayout());
+
         display.setBorder(null);
+        jPPlayer.add(display, java.awt.BorderLayout.CENTER);
+
+        jProgressBar.setString("00:00");
+        jProgressBar.setStringPainted(true);
+        jPPlayer.add(jProgressBar, java.awt.BorderLayout.SOUTH);
+
+        jPInfo.add(jPPlayer, java.awt.BorderLayout.CENTER);
 
         jBPrev.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ComponentIcons/multimedia/player/24/media-previous.png"))); // NOI18N
+        jBPrev.setToolTipText("Anterior");
         jBPrev.setFocusable(false);
         jBPrev.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        jBPrev.setMaximumSize(new java.awt.Dimension(33, 33));
+        jBPrev.setMinimumSize(new java.awt.Dimension(33, 33));
+        jBPrev.setPreferredSize(new java.awt.Dimension(33, 33));
         jBPrev.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
         jBPrev.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -278,6 +316,7 @@ public class GAudioPlayer extends JPanel implements BasicPlayerListener {
         jPControls.add(jBPrev);
 
         jBPlayPause.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ComponentIcons/multimedia/player/32/media-play.png"))); // NOI18N
+        jBPlayPause.setToolTipText("Reproduzir");
         jBPlayPause.setFocusable(false);
         jBPlayPause.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         jBPlayPause.setMaximumSize(new java.awt.Dimension(43, 43));
@@ -291,9 +330,28 @@ public class GAudioPlayer extends JPanel implements BasicPlayerListener {
         });
         jPControls.add(jBPlayPause);
 
+        jBStop.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ComponentIcons/multimedia/player/24/media-stop.png"))); // NOI18N
+        jBStop.setToolTipText("Parar");
+        jBStop.setFocusable(false);
+        jBStop.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        jBStop.setMaximumSize(new java.awt.Dimension(33, 33));
+        jBStop.setMinimumSize(new java.awt.Dimension(33, 33));
+        jBStop.setPreferredSize(new java.awt.Dimension(33, 33));
+        jBStop.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        jBStop.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jBStopActionPerformed(evt);
+            }
+        });
+        jPControls.add(jBStop);
+
         jBNext.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ComponentIcons/multimedia/player/24/media-next.png"))); // NOI18N
+        jBNext.setToolTipText("Próximo");
         jBNext.setFocusable(false);
         jBNext.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        jBNext.setMaximumSize(new java.awt.Dimension(33, 33));
+        jBNext.setMinimumSize(new java.awt.Dimension(33, 33));
+        jBNext.setPreferredSize(new java.awt.Dimension(33, 33));
         jBNext.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
         jBNext.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -303,125 +361,88 @@ public class GAudioPlayer extends JPanel implements BasicPlayerListener {
         jPControls.add(jBNext);
 
         jSeparator2.setOrientation(javax.swing.SwingConstants.VERTICAL);
+        jSeparator2.setMaximumSize(new java.awt.Dimension(32767, 20));
+        jSeparator2.setMinimumSize(new java.awt.Dimension(2, 20));
+        jSeparator2.setPreferredSize(new java.awt.Dimension(2, 20));
+        jPControls.add(jSeparator2);
 
-        javax.swing.GroupLayout jPPlayerLayout = new javax.swing.GroupLayout(jPPlayer);
-        jPPlayer.setLayout(jPPlayerLayout);
-        jPPlayerLayout.setHorizontalGroup(
-            jPPlayerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPPlayerLayout.createSequentialGroup()
-                .addComponent(display, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jSeparator2, javax.swing.GroupLayout.PREFERRED_SIZE, 6, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPControls, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-        );
-        jPPlayerLayout.setVerticalGroup(
-            jPPlayerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPPlayerLayout.createSequentialGroup()
-                .addGroup(jPPlayerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jPControls, javax.swing.GroupLayout.DEFAULT_SIZE, 55, Short.MAX_VALUE)
-                    .addComponent(display, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addGap(0, 0, Short.MAX_VALUE))
-            .addGroup(jPPlayerLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jSeparator2)
-                .addContainerGap())
-        );
-
-        jPTrack.setMaximumSize(new java.awt.Dimension(32768, 40));
-        jPTrack.setMinimumSize(new java.awt.Dimension(418, 40));
-        jPTrack.setPreferredSize(new java.awt.Dimension(418, 40));
-
-        jProgressBar.setString("00:00");
-        jProgressBar.setStringPainted(true);
-
-        jTBRepeat.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ComponentIcons/multimedia/player/16/media-repeat.png"))); // NOI18N
+        jTBRepeat.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ComponentIcons/multimedia/player/24/media-repeat.png"))); // NOI18N
+        jTBRepeat.setToolTipText("Repetir");
         jTBRepeat.setFocusable(false);
-        jTBRepeat.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        jTBRepeat.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        jTBRepeat.setHorizontalTextPosition(javax.swing.SwingConstants.LEADING);
+        jTBRepeat.setMaximumSize(new java.awt.Dimension(33, 33));
+        jTBRepeat.setMinimumSize(new java.awt.Dimension(33, 33));
+        jTBRepeat.setPreferredSize(new java.awt.Dimension(33, 33));
         jTBRepeat.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jTBRepeatActionPerformed(evt);
             }
         });
+        jPControls.add(jTBRepeat);
 
-        jTBShuffle.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ComponentIcons/multimedia/player/16/media-shuffle.png"))); // NOI18N
+        jTBShuffle.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ComponentIcons/multimedia/player/24/media-shuffle.png"))); // NOI18N
+        jTBShuffle.setToolTipText("Aleatório");
         jTBShuffle.setFocusable(false);
-        jTBShuffle.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        jTBShuffle.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        jTBShuffle.setHorizontalTextPosition(javax.swing.SwingConstants.LEADING);
+        jTBShuffle.setMaximumSize(new java.awt.Dimension(33, 33));
+        jTBShuffle.setMinimumSize(new java.awt.Dimension(33, 33));
+        jTBShuffle.setPreferredSize(new java.awt.Dimension(33, 33));
         jTBShuffle.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jTBShuffleActionPerformed(evt);
             }
         });
+        jPControls.add(jTBShuffle);
 
+        jPInfo.add(jPControls, java.awt.BorderLayout.PAGE_END);
+
+        jPTotal.add(jPInfo, java.awt.BorderLayout.CENTER);
+
+        jPGain.setMaximumSize(new java.awt.Dimension(60, 2147483647));
+        jPGain.setMinimumSize(new java.awt.Dimension(60, 80));
+        jPGain.setPreferredSize(new java.awt.Dimension(60, 0));
+        jPGain.setLayout(new java.awt.BorderLayout());
+
+        jLGainMin.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLGainMin.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ComponentIcons/multimedia/player/24/media-volume-1.png"))); // NOI18N
+        jPGain.add(jLGainMin, java.awt.BorderLayout.PAGE_START);
+
+        jLGainMax.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLGainMax.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ComponentIcons/multimedia/player/24/media-volume-3.png"))); // NOI18N
+        jLGainMax.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        jPGain.add(jLGainMax, java.awt.BorderLayout.PAGE_END);
 
         jSldGain.setMajorTickSpacing(50);
         jSldGain.setMinorTickSpacing(10);
+        jSldGain.setOrientation(javax.swing.JSlider.VERTICAL);
         jSldGain.setPaintTicks(true);
-        jSldGain.setMaximumSize(new java.awt.Dimension(32767, 40));
-        jSldGain.setPreferredSize(new java.awt.Dimension(100, 40));
+        jSldGain.setToolTipText("Volume");
+        jSldGain.setMaximumSize(new java.awt.Dimension(32767, 36));
+        jSldGain.setPreferredSize(new java.awt.Dimension(100, 36));
         jSldGain.addChangeListener(new javax.swing.event.ChangeListener() {
             public void stateChanged(javax.swing.event.ChangeEvent evt) {
                 jSldGainStateChanged(evt);
             }
         });
+        jPGain.add(jSldGain, java.awt.BorderLayout.CENTER);
 
-        jLGainMax.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ComponentIcons/multimedia/player/24/media-volume-3.png"))); // NOI18N
-
-        javax.swing.GroupLayout jPTrackLayout = new javax.swing.GroupLayout(jPTrack);
-        jPTrack.setLayout(jPTrackLayout);
-        jPTrackLayout.setHorizontalGroup(
-            jPTrackLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPTrackLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jProgressBar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jTBRepeat)
-                .addGap(0, 0, 0)
-                .addComponent(jTBShuffle)
-                .addGap(12, 12, 12)
-                .addComponent(jLGainMin)
-                .addGap(0, 0, 0)
-                .addComponent(jSldGain, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, 0)
-                .addComponent(jLGainMax)
-                .addGap(0, 0, 0))
-        );
-        jPTrackLayout.setVerticalGroup(
-            jPTrackLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-            .addGroup(jPTrackLayout.createSequentialGroup()
-                .addGroup(jPTrackLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPTrackLayout.createSequentialGroup()
-                        .addGap(6, 6, 6)
-                        .addGroup(jPTrackLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                            .addComponent(jTBShuffle, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jTBRepeat, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jProgressBar, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                    .addGroup(jPTrackLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                        .addComponent(jLGainMin, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jLGainMax, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jSldGain, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
+        jPTotal.add(jPGain, java.awt.BorderLayout.LINE_END);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPPlayer, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(jSeparator1)
-            .addComponent(jPTrack, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addGap(6, 6, 6)
+                .addComponent(jPTotal, javax.swing.GroupLayout.PREFERRED_SIZE, 406, Short.MAX_VALUE)
+                .addGap(6, 6, 6))
         );
         layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addComponent(jPPlayer, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, 0)
-                .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPTrack, javax.swing.GroupLayout.DEFAULT_SIZE, 41, Short.MAX_VALUE))
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                .addGap(6, 6, 6)
+                .addComponent(jPTotal, javax.swing.GroupLayout.PREFERRED_SIZE, 146, Short.MAX_VALUE)
+                .addGap(6, 6, 6))
         );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -437,9 +458,9 @@ public class GAudioPlayer extends JPanel implements BasicPlayerListener {
         this.file = playlist.getPrevious();
     }//GEN-LAST:event_jBPrevActionPerformed
 
-    private void jBNextActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBNextActionPerformed
-        this.file = playlist.getNext();
-    }//GEN-LAST:event_jBNextActionPerformed
+    private void jBStopActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBStopActionPerformed
+        stop();
+    }//GEN-LAST:event_jBStopActionPerformed
 
     private void jSldGainStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_jSldGainStateChanged
         changeGain();
@@ -449,19 +470,25 @@ public class GAudioPlayer extends JPanel implements BasicPlayerListener {
 
     }//GEN-LAST:event_jTBRepeatActionPerformed
 
+    private void jBNextActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBNextActionPerformed
+        this.file = playlist.getNext();
+    }//GEN-LAST:event_jBNextActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private br.com.gmp.comps.audioplayer.display.GAudioPlayerDisplay display;
     private javax.swing.JButton jBNext;
     private javax.swing.JButton jBPlayPause;
     private javax.swing.JButton jBPrev;
+    private javax.swing.JButton jBStop;
     private javax.swing.JLabel jLGainMax;
     private javax.swing.JLabel jLGainMin;
     private javax.swing.JPanel jPControls;
+    private javax.swing.JPanel jPGain;
+    private javax.swing.JPanel jPInfo;
     private javax.swing.JPanel jPPlayer;
-    private javax.swing.JPanel jPTrack;
+    private javax.swing.JPanel jPTotal;
     private javax.swing.JProgressBar jProgressBar;
-    private javax.swing.JSeparator jSeparator1;
     private javax.swing.JSeparator jSeparator2;
     private javax.swing.JSlider jSldGain;
     private javax.swing.JToggleButton jTBRepeat;

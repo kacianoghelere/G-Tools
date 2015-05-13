@@ -3,6 +3,7 @@ package br.com.gmp.comps;
 import br.com.gmp.comps.model.GListModel;
 import br.com.gmp.utils.audio.file.AudioConverter;
 import br.com.gmp.utils.audio.file.AudioFile;
+import br.com.gmp.utils.system.SystemProperties;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -12,14 +13,17 @@ import java.util.logging.Logger;
  * @author kaciano
  */
 public class AudioListTest extends javax.swing.JFrame {
-    
+
     private List<AudioFile> list;
 
     public AudioListTest() {
         try {
             initComponents();
-            list = AudioConverter.convert("/home/kaciano/mp3/");
-            playerList.getPlaylist().loadData(list);
+            if (SystemProperties.OS_NAME.equalsIgnoreCase("Windows 8.1")) {
+                playerList.getPlaylist().loadData("C:\\Users\\Kaciano\\Music\\Soundtracks\\Pirates of the Caribbean OST\\Pirates Of The Caribbean - At Worlds End");
+            } else {
+                playerList.getPlaylist().loadData("/home/kaciano/mp3/");
+            }
             System.out.println("Jovani gay");
         } catch (Exception ex) {
             Logger.getLogger(AudioListTest.class.getName()).log(Level.SEVERE, null, ex);

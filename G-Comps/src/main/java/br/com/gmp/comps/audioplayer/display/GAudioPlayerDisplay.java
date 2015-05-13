@@ -16,6 +16,11 @@ public class GAudioPlayerDisplay extends JPanel {
         initComponents();
     }
 
+    /**
+     * Modifica o texto do display
+     *
+     * @param file {@code AudioFile} Arquivo de audio
+     */
     public void setText(AudioFile file) {
         String album = file != null ? file.getAlbum() : "Desconhecido";
         String artist = file != null ? file.getArtist() : "Desconhecido";
@@ -23,6 +28,12 @@ public class GAudioPlayerDisplay extends JPanel {
         jLLength.setText(file != null ? file.getLength() : "--:--");
         jLTitle.setText(file != null ? file.getTitle() : "Desconhecido");
         jLTrack.setText(file != null ? file.getTrack() : "--");
+    }
+
+    @Override
+    public String getToolTipText() {
+        return jLTrack.getText() + " - " + jLTitle.getText() + " - " + jLLength.getText()
+                + "\n" + jLInfo.getText();
     }
 
     @SuppressWarnings("unchecked")

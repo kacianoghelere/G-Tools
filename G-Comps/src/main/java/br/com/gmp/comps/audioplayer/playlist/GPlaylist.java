@@ -3,9 +3,12 @@ package br.com.gmp.comps.audioplayer.playlist;
 import br.com.gmp.comps.audioplayer.playlist.renderer.GPlaylistRenderer;
 import br.com.gmp.comps.list.GList;
 import br.com.gmp.comps.model.GListModel;
+import br.com.gmp.utils.audio.file.AudioConverter;
 import br.com.gmp.utils.audio.file.AudioFile;
 import java.util.List;
 import java.util.Random;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.ListCellRenderer;
 import javax.swing.SwingUtilities;
 
@@ -31,8 +34,9 @@ public class GPlaylist extends GList {
      * Metodo de inicializacao
      */
     private void initialize() {
-        this.playlistModel = new GListModel<>();
+        this.playlistModel = new GListModel<>();        
         initComponents();
+        setModel(playlistModel);
     }
 
     /**
@@ -69,6 +73,18 @@ public class GPlaylist extends GList {
     public AudioFile getNext() {
         if (getSelectedIndex() < this.playlistModel.getSize() - 1) {
             setCurrent(getSelectedIndex() + 1);
+            return (AudioFile) this.playlistModel.getElementAt(getCurrent());
+        }
+        return null;
+    }
+    /**
+     * Retorna o primeiro arquivo da lista
+     *
+     * @return {@code AudioFile} Arquivo de Audio
+     */
+    public AudioFile getFirst() {
+        if (getSelectedIndex() < this.playlistModel.getSize() - 1) {
+            setCurrent(0);
             return (AudioFile) this.playlistModel.getElementAt(getCurrent());
         }
         return null;
@@ -114,6 +130,26 @@ public class GPlaylist extends GList {
         this.repaint();
         this.revalidate();
         SwingUtilities.updateComponentTreeUI(this);
+    }
+
+    /**
+     * Carrega os arquivos no modelo de dados
+     *
+     * @param dir {@code String} Diretorio de dados
+     */
+    public void loadData(String dir) {
+        try {
+            List<AudioFile> convert = AudioConverter.convert(dir);
+            this.playlistModel.setData(convert);            
+            this.repaint();
+            this.revalidate();
+            SwingUtilities.updateComponentTreeUI(this);
+            if (playlistModel.getSize() > 0) {
+                setSelectedIndex(0);
+            }
+        } catch (Exception ex) {
+            Logger.getLogger(GPlaylist.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     /**
