@@ -1,6 +1,7 @@
 package br.com.gmp.utils.reflection;
 
 import java.lang.reflect.Constructor;
+import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -18,15 +19,17 @@ public class ReflectionUtil {
      *
      * @param <T> Tipo de retorno, se nao especificado, retorna como Object
      * @param instance {@code Object} Instancia do objeto a ser mapeado
-     * @param cl {@code Class(T)} Classe do tipo de retorno, se nao
+     * @param type {@code Class(T)} Classe do tipo de retorno, se nao
      * especificado, retorna como Object
      * @param name {@code String} Nome do campo a ser retornado
      * @return {@code (T extends Object)} Objeto desejado, caso nao seja
      * encontrado retorna null
      */
-    public static <T extends Object> T getObject(Object instance, Class<T> cl, String name) {
+    public static <T extends Object> T getObject(Object instance, Class<T> type, String name) {
         try {
-            return (T) instance.getClass().getDeclaredField(name).get(instance);
+            Field field = instance.getClass().getDeclaredField(name);
+            field.setAccessible(true);
+            return (T) field.get(instance);
         } catch (IllegalArgumentException | IllegalAccessException | NoSuchFieldException | SecurityException ex) {
             Logger.getLogger(ReflectionUtil.class.getName()).log(Level.SEVERE, null, ex);
             return null;
