@@ -14,6 +14,26 @@ import java.util.logging.Logger;
 public class ReflectionUtil {
 
     /**
+     * Busca o campo designado e retorna com o tipo especifico
+     *
+     * @param <T> Tipo de retorno, se nao especificado, retorna como Object
+     * @param instance {@code Object} Instancia do objeto a ser mapeado
+     * @param cl {@code Class(T)} Classe do tipo de retorno, se nao
+     * especificado, retorna como Object
+     * @param name {@code String} Nome do campo a ser retornado
+     * @return {@code (T extends Object)} Objeto desejado, caso nao seja
+     * encontrado retorna null
+     */
+    public static <T extends Object> T getObject(Object instance, Class<T> cl, String name) {
+        try {
+            return (T) instance.getClass().getDeclaredField(name).get(instance);
+        } catch (IllegalArgumentException | IllegalAccessException | NoSuchFieldException | SecurityException ex) {
+            Logger.getLogger(ReflectionUtil.class.getName()).log(Level.SEVERE, null, ex);
+            return null;
+        }
+    }
+
+    /**
      * Retorna o objeto instanciado a partir dos dados recebidos
      *
      * @param cl {@code <b>Class</b>} Classe da instancia
