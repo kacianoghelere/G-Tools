@@ -271,8 +271,8 @@ public class GAudioPlayer extends JPanel implements BasicPlayerListener {
         jTBRepeat = new javax.swing.JToggleButton();
         jTBShuffle = new javax.swing.JToggleButton();
         jPGain = new javax.swing.JPanel();
-        jLGainMin = new javax.swing.JLabel();
         jLGainMax = new javax.swing.JLabel();
+        jLGainMin = new javax.swing.JLabel();
         jSldGain = new javax.swing.JSlider();
 
         setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(220, 220, 220)));
@@ -285,7 +285,7 @@ public class GAudioPlayer extends JPanel implements BasicPlayerListener {
         jPTotal.setMaximumSize(new java.awt.Dimension(2147483647, 160));
         jPTotal.setMinimumSize(new java.awt.Dimension(420, 160));
         jPTotal.setPreferredSize(new java.awt.Dimension(420, 160));
-        jPTotal.setLayout(new java.awt.BorderLayout());
+        jPTotal.setLayout(new java.awt.BorderLayout(2, 0));
 
         jPInfo.setLayout(new java.awt.BorderLayout());
 
@@ -398,19 +398,20 @@ public class GAudioPlayer extends JPanel implements BasicPlayerListener {
 
         jPTotal.add(jPInfo, java.awt.BorderLayout.CENTER);
 
-        jPGain.setMaximumSize(new java.awt.Dimension(60, 2147483647));
-        jPGain.setMinimumSize(new java.awt.Dimension(60, 80));
-        jPGain.setPreferredSize(new java.awt.Dimension(60, 0));
+        jPGain.setToolTipText("");
+        jPGain.setMaximumSize(new java.awt.Dimension(50, 2147483647));
+        jPGain.setMinimumSize(new java.awt.Dimension(50, 80));
+        jPGain.setPreferredSize(new java.awt.Dimension(50, 0));
         jPGain.setLayout(new java.awt.BorderLayout());
-
-        jLGainMin.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLGainMin.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ComponentIcons/multimedia/player/24/media-volume-1.png"))); // NOI18N
-        jPGain.add(jLGainMin, java.awt.BorderLayout.PAGE_START);
 
         jLGainMax.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLGainMax.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ComponentIcons/multimedia/player/24/media-volume-3.png"))); // NOI18N
         jLGainMax.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        jPGain.add(jLGainMax, java.awt.BorderLayout.PAGE_END);
+        jPGain.add(jLGainMax, java.awt.BorderLayout.PAGE_START);
+
+        jLGainMin.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLGainMin.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ComponentIcons/multimedia/player/24/media-volume-1.png"))); // NOI18N
+        jPGain.add(jLGainMin, java.awt.BorderLayout.PAGE_END);
 
         jSldGain.setMajorTickSpacing(50);
         jSldGain.setMinorTickSpacing(10);
