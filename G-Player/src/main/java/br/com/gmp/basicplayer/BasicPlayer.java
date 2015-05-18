@@ -56,17 +56,64 @@ import org.tritonus.share.sampled.file.TAudioFileFormat;
  */
 public class BasicPlayer implements BasicController, Runnable {
 
+    /**
+     *
+     */
     public static int EXTERNAL_BUFFER_SIZE = 4000 * 4;
+
+    /**
+     *
+     */
     public static int SKIP_INACCURACY_SIZE = 1200;
+
+    /**
+     *
+     */
     protected Thread m_thread = null;
+
+    /**
+     *
+     */
     protected Object m_dataSource;
+
+    /**
+     *
+     */
     protected AudioInputStream m_encodedaudioInputStream;
+
+    /**
+     *
+     */
     protected int encodedLength = -1;
+
+    /**
+     *
+     */
     protected AudioInputStream m_audioInputStream;
+
+    /**
+     *
+     */
     protected AudioFileFormat m_audioFileFormat;
+
+    /**
+     *
+     */
     protected SourceDataLine m_line;
+
+    /**
+     *
+     */
     protected FloatControl m_gainControl;
+
+    /**
+     *
+     */
     protected FloatControl m_panControl;
+
+    /**
+     *
+     */
     protected String m_mixerName = null;
     private int m_lineCurrentBufferSize = -1;
     private int lineBufferSize = -1;
@@ -77,10 +124,30 @@ public class BasicPlayer implements BasicController, Runnable {
      * We need them to control Thread.
      */
     public static final int UNKNOWN = -1;
+
+    /**
+     *
+     */
     public static final int PLAYING = 0;
+
+    /**
+     *
+     */
     public static final int PAUSED = 1;
+
+    /**
+     *
+     */
     public static final int STOPPED = 2;
+
+    /**
+     *
+     */
     public static final int OPENED = 3;
+
+    /**
+     *
+     */
     public static final int SEEKING = 4;
     private int m_status = UNKNOWN;
     // Listeners to be notified.
@@ -96,6 +163,9 @@ public class BasicPlayer implements BasicController, Runnable {
         reset();
     }
 
+    /**
+     *
+     */
     protected void reset() {
         m_status = UNKNOWN;
         if (m_audioInputStream != null) {
@@ -204,6 +274,7 @@ public class BasicPlayer implements BasicController, Runnable {
     /**
      * Open file to play.
      */
+    @Override
     public void open(File file) throws BasicPlayerException {
         log.info("open(" + file + ")");
         if (file != null) {
@@ -215,6 +286,7 @@ public class BasicPlayer implements BasicController, Runnable {
     /**
      * Open URL to play.
      */
+    @Override
     public void open(URL url) throws BasicPlayerException {
         log.info("open(" + url + ")");
         if (url != null) {
@@ -225,6 +297,7 @@ public class BasicPlayer implements BasicController, Runnable {
 
     /**
      * Open inputstream to play.
+     * @param inputStream
      */
     public void open(InputStream inputStream) throws BasicPlayerException {
         log.info("open(" + inputStream + ")");
@@ -263,10 +336,10 @@ public class BasicPlayer implements BasicController, Runnable {
             }
             // Add JavaSound properties.
             if (m_audioFileFormat.getByteLength() > 0) {
-                properties.put("audio.length.bytes", new Integer(m_audioFileFormat.getByteLength()));
+                properties.put("audio.length.bytes", m_audioFileFormat.getByteLength());
             }
             if (m_audioFileFormat.getFrameLength() > 0) {
-                properties.put("audio.length.frames", new Integer(m_audioFileFormat.getFrameLength()));
+                properties.put("audio.length.frames", m_audioFileFormat.getFrameLength());
             }
             if (m_audioFileFormat.getType() != null) {
                 properties.put("audio.type", (m_audioFileFormat.getType().toString()));
@@ -274,19 +347,19 @@ public class BasicPlayer implements BasicController, Runnable {
             // Audio format.
             AudioFormat audioFormat = m_audioFileFormat.getFormat();
             if (audioFormat.getFrameRate() > 0) {
-                properties.put("audio.framerate.fps", new Float(audioFormat.getFrameRate()));
+                properties.put("audio.framerate.fps", audioFormat.getFrameRate());
             }
             if (audioFormat.getFrameSize() > 0) {
-                properties.put("audio.framesize.bytes", new Integer(audioFormat.getFrameSize()));
+                properties.put("audio.framesize.bytes", audioFormat.getFrameSize());
             }
             if (audioFormat.getSampleRate() > 0) {
-                properties.put("audio.samplerate.hz", new Float(audioFormat.getSampleRate()));
+                properties.put("audio.samplerate.hz", audioFormat.getSampleRate());
             }
             if (audioFormat.getSampleSizeInBits() > 0) {
-                properties.put("audio.samplesize.bits", new Integer(audioFormat.getSampleSizeInBits()));
+                properties.put("audio.samplesize.bits", audioFormat.getSampleSizeInBits());
             }
             if (audioFormat.getChannels() > 0) {
-                properties.put("audio.channels", new Integer(audioFormat.getChannels()));
+                properties.put("audio.channels", audioFormat.getChannels());
             }
             if (audioFormat instanceof TAudioFormat) {
                 // Tritonus SPI compliant audio format.
@@ -302,17 +375,16 @@ public class BasicPlayer implements BasicController, Runnable {
             }
             m_status = OPENED;
             notifyEvent(BasicPlayerEvent.OPENED, getEncodedStreamPosition(), -1, null);
-        } catch (LineUnavailableException e) {
-            throw new BasicPlayerException(e);
-        } catch (UnsupportedAudioFileException e) {
-            throw new BasicPlayerException(e);
-        } catch (IOException e) {
+        } catch (LineUnavailableException | UnsupportedAudioFileException | IOException e) {
             throw new BasicPlayerException(e);
         }
     }
 
     /**
      * Inits Audio ressources from file.
+     * @param file
+     * @throws javax.sound.sampled.UnsupportedAudioFileException
+     * @throws java.io.IOException
      */
     protected void initAudioInputStream(File file) throws UnsupportedAudioFileException, IOException {
         m_audioInputStream = AudioSystem.getAudioInputStream(file);
@@ -321,6 +393,9 @@ public class BasicPlayer implements BasicController, Runnable {
 
     /**
      * Inits Audio ressources from URL.
+     * @param url
+     * @throws javax.sound.sampled.UnsupportedAudioFileException
+     * @throws java.io.IOException
      */
     protected void initAudioInputStream(URL url) throws UnsupportedAudioFileException, IOException {
         m_audioInputStream = AudioSystem.getAudioInputStream(url);
@@ -329,6 +404,9 @@ public class BasicPlayer implements BasicController, Runnable {
 
     /**
      * Inits Audio ressources from InputStream.
+     * @param inputStream
+     * @throws javax.sound.sampled.UnsupportedAudioFileException
+     * @throws java.io.IOException
      */
     protected void initAudioInputStream(InputStream inputStream) throws UnsupportedAudioFileException, IOException {
         m_audioInputStream = AudioSystem.getAudioInputStream(inputStream);
@@ -337,6 +415,7 @@ public class BasicPlayer implements BasicController, Runnable {
 
     /**
      * Inits Audio ressources from AudioSystem.<br>
+     * @throws javax.sound.sampled.LineUnavailableException
      */
     protected void initLine() throws LineUnavailableException {
         log.info("initLine()");
@@ -368,6 +447,9 @@ public class BasicPlayer implements BasicController, Runnable {
      * how big the internal buffer for the line should be. Here, we say
      * AudioSystem.NOT_SPECIFIED, signaling that we don't care about the exact
      * size. JavaSound will use some default value for the buffer size.
+     *
+     * @throws javax.sound.sampled.LineUnavailableException Excecao de linha nao
+     * disponivel
      */
     protected void createLine() throws LineUnavailableException {
         log.info("Create Line");
@@ -414,6 +496,9 @@ public class BasicPlayer implements BasicController, Runnable {
 
     /**
      * Opens the line.
+     *
+     * @throws javax.sound.sampled.LineUnavailableException Excecao de linha nao
+     * disponivel
      */
     protected void openLine() throws LineUnavailableException {
         if (m_line != null) {
@@ -499,6 +584,8 @@ public class BasicPlayer implements BasicController, Runnable {
 
     /**
      * Starts playback.
+     *
+     * @throws br.com.gmp.basicplayer.BasicPlayerException Excecao do player
      */
     protected void startPlayback() throws BasicPlayerException {
         if (m_status == STOPPED) {
@@ -549,6 +636,7 @@ public class BasicPlayer implements BasicController, Runnable {
      * Player Status == PLAYING => Audio stream data sent to Audio line.<br>
      * Player Status == PAUSED => Waiting for another status.
      */
+    @Override
     public void run() {
         log.info("Thread Running");
         int nBytesRead = 1;
@@ -676,14 +764,20 @@ public class BasicPlayer implements BasicController, Runnable {
     /**
      * Notify listeners about a BasicPlayerEvent.
      *
-     * @param code event code.
-     * @param position in the stream when the event occurs.
+     * @param code {@code int} Event code.
+     * @param position {@code int} Position in the stream when the event occurs.
+     * @param value {@code double} Valor
+     * @param description {@code Object} Descricao
      */
     protected void notifyEvent(int code, int position, double value, Object description) {
         BasicPlayerEventLauncher trigger = new BasicPlayerEventLauncher(code, position, value, description, new ArrayList(m_listeners), this);
         trigger.start();
     }
 
+    /**
+     *
+     * @return
+     */
     protected int getEncodedStreamPosition() {
         int nEncodedBytes = -1;
         if (m_dataSource instanceof File) {
@@ -698,6 +792,9 @@ public class BasicPlayer implements BasicController, Runnable {
         return nEncodedBytes;
     }
 
+    /**
+     *
+     */
     protected void closeStream() {
         // Close stream.
         try {
@@ -712,6 +809,8 @@ public class BasicPlayer implements BasicController, Runnable {
 
     /**
      * Returns true if Gain control is supported.
+     *
+     * @return {@code boolean} Possui controle de volume
      */
     public boolean hasGainControl() {
         if (m_gainControl == null) {
@@ -725,6 +824,8 @@ public class BasicPlayer implements BasicController, Runnable {
 
     /**
      * Returns Gain value.
+     *
+     * @return {@code float} Retorna o volume
      */
     public float getGainValue() {
         if (hasGainControl()) {
@@ -736,6 +837,8 @@ public class BasicPlayer implements BasicController, Runnable {
 
     /**
      * Gets max Gain value.
+     *
+     * @return {@code float} Retorna o volume maximo
      */
     public float getMaximumGain() {
         if (hasGainControl()) {
@@ -747,6 +850,8 @@ public class BasicPlayer implements BasicController, Runnable {
 
     /**
      * Gets min Gain value.
+     *
+     * @return {@code float} Retorna o volume minimo
      */
     public float getMinimumGain() {
         if (hasGainControl()) {
@@ -758,6 +863,8 @@ public class BasicPlayer implements BasicController, Runnable {
 
     /**
      * Returns true if Pan control is supported.
+     *
+     * @return {@code boolean} Possui Pan Control
      */
     public boolean hasPanControl() {
         if (m_panControl == null) {
@@ -892,6 +999,10 @@ public class BasicPlayer implements BasicController, Runnable {
         }
     }
 
+    /**
+     *
+     * @return
+     */
     public List getMixers() {
         ArrayList mixers = new ArrayList();
         Mixer.Info[] mInfos = AudioSystem.getMixerInfo();
@@ -907,6 +1018,11 @@ public class BasicPlayer implements BasicController, Runnable {
         return mixers;
     }
 
+    /**
+     *
+     * @param name
+     * @return
+     */
     public Mixer getMixer(String name) {
         Mixer mixer = null;
         if (name != null) {
@@ -923,10 +1039,18 @@ public class BasicPlayer implements BasicController, Runnable {
         return mixer;
     }
 
+    /**
+     *
+     * @return
+     */
     public String getMixerName() {
         return m_mixerName;
     }
 
+    /**
+     *
+     * @param name
+     */
     public void setMixerName(String name) {
         m_mixerName = name;
     }
