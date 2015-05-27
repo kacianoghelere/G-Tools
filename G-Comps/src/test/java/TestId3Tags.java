@@ -1,17 +1,12 @@
 
 import br.com.gmp.utils.image.ImageUtil;
+import java.awt.Image;
 import java.awt.image.BufferedImage;
-import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.swing.ImageIcon;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
 import junit.framework.TestCase;
-import org.jaudiotagger.audio.AudioFile;
-import org.jaudiotagger.audio.AudioHeader;
 import org.jaudiotagger.audio.exceptions.InvalidAudioFrameException;
 import org.jaudiotagger.audio.exceptions.ReadOnlyFileException;
 import org.jaudiotagger.audio.mp3.MP3AudioHeader;
@@ -21,7 +16,6 @@ import org.jaudiotagger.tag.TagException;
 import org.jaudiotagger.tag.datatype.Artwork;
 import org.jaudiotagger.tag.id3.AbstractID3v2Tag;
 import org.jaudiotagger.tag.id3.ID3v1Tag;
-import org.jaudiotagger.tag.id3.ID3v24Tag;
 
 /**
  *
@@ -54,11 +48,11 @@ public class TestId3Tags extends TestCase {
             AbstractID3v2Tag v2Tag = mp3.getID3v2Tag();
             Artwork artwork = v2Tag.getFirstArtwork();
             BufferedImage image = artwork.getImage();
-            System.out.println(image.toString());            
+            System.out.println(image.toString());
             MP3AudioHeader header = mp3.getMP3AudioHeader();
             System.out.println(header.getFormat());
             ImageUtil imageUtil = new ImageUtil();
-            
+            image.getScaledInstance(512, 512, Image.SCALE_SMOOTH);
 //            JFrame frame = new JFrame("Titulo");
 //            frame.setSize(200, 200);
 //            frame.setIconImage(image);

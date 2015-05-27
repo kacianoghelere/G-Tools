@@ -8,6 +8,7 @@ package br.com.gmp.comps;
 import br.com.gmp.comps.cleaner.ComponentCleaner;
 import br.com.gmp.utils.image.ImageUtil;
 import java.awt.Image;
+import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.net.URL;
 import javax.swing.ImageIcon;
@@ -34,8 +35,9 @@ public class TestClean extends javax.swing.JFrame {
             URL stream = getClass().getResource("/audio/test.mp3");
             AbstractID3v2Tag iD3v2Tag = new MP3File("/home/kaciano/mp3/test.mp3").getID3v2Tag();
             ImageUtil imageUtil = new ImageUtil();
-            Image scaledImage = imageUtil.getScaledImage(iD3v2Tag.getFirstArtwork().getImage(), 48, 48);
-            artwork.setIcon(new ImageIcon(scaledImage));
+            BufferedImage image = iD3v2Tag.getFirstArtwork().getImage();
+            Image scaledInstance = image.getScaledInstance(48, 48, Image.SCALE_SMOOTH);
+            artwork.setIcon(new ImageIcon(scaledInstance));
         } catch (IOException | TagException | ReadOnlyFileException | InvalidAudioFrameException e) {
             e.printStackTrace();
         }
