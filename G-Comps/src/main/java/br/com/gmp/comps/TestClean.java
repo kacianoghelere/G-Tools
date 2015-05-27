@@ -3,10 +3,19 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package br.com.gmp.comps;
 
 import br.com.gmp.comps.cleaner.ComponentCleaner;
+import br.com.gmp.utils.image.ImageUtil;
+import java.awt.Image;
+import java.io.IOException;
+import java.net.URL;
+import javax.swing.ImageIcon;
+import org.jaudiotagger.audio.exceptions.InvalidAudioFrameException;
+import org.jaudiotagger.audio.exceptions.ReadOnlyFileException;
+import org.jaudiotagger.audio.mp3.MP3File;
+import org.jaudiotagger.tag.TagException;
+import org.jaudiotagger.tag.id3.AbstractID3v2Tag;
 
 /**
  *
@@ -21,6 +30,15 @@ public class TestClean extends javax.swing.JFrame {
         initComponents();
         ComponentCleaner cc = new ComponentCleaner(false);
         cc.clean(jPRaiz);
+        try {
+            URL stream = getClass().getResource("/audio/test.mp3");
+            AbstractID3v2Tag iD3v2Tag = new MP3File("/home/kaciano/mp3/test.mp3").getID3v2Tag();
+            ImageUtil imageUtil = new ImageUtil();
+            Image scaledImage = imageUtil.getScaledImage(iD3v2Tag.getFirstArtwork().getImage(), 48, 48);
+            artwork.setIcon(new ImageIcon(scaledImage));
+        } catch (IOException | TagException | ReadOnlyFileException | InvalidAudioFrameException e) {
+            e.printStackTrace();
+        }
     }
 
     /**
@@ -58,6 +76,7 @@ public class TestClean extends javax.swing.JFrame {
         jCheckBox9 = new javax.swing.JCheckBox();
         gTextField5 = new br.com.gmp.comps.textfield.GTextField();
         jCheckBox10 = new javax.swing.JCheckBox();
+        artwork = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setName("Form"); // NOI18N
@@ -237,11 +256,11 @@ public class TestClean extends javax.swing.JFrame {
         jPTab1.setLayout(jPTab1Layout);
         jPTab1Layout.setHorizontalGroup(
             jPTab1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 462, Short.MAX_VALUE)
+            .addGap(0, 456, Short.MAX_VALUE)
         );
         jPTab1Layout.setVerticalGroup(
             jPTab1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 197, Short.MAX_VALUE)
+            .addGap(0, 198, Short.MAX_VALUE)
         );
 
         jTabbed1.addTab("tab1", jPTab1);
@@ -274,7 +293,7 @@ public class TestClean extends javax.swing.JFrame {
                         .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(jCheckBox1)
                     .addComponent(jCheckBox2))
-                .addContainerGap(272, Short.MAX_VALUE))
+                .addContainerGap(273, Short.MAX_VALUE))
         );
         jPTab2Layout.setVerticalGroup(
             jPTab2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -287,7 +306,7 @@ public class TestClean extends javax.swing.JFrame {
                 .addComponent(jCheckBox1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jCheckBox2)
-                .addContainerGap(97, Short.MAX_VALUE))
+                .addContainerGap(94, Short.MAX_VALUE))
         );
 
         jTabbed1.addTab("tab2", jPTab2);
@@ -302,6 +321,9 @@ public class TestClean extends javax.swing.JFrame {
         jCheckBox10.setText("jCheckBox3");
         jCheckBox10.setName("jCheckBox10"); // NOI18N
 
+        artwork.setText("jLabel1");
+        artwork.setName("artwork"); // NOI18N
+
         javax.swing.GroupLayout jPRaizLayout = new javax.swing.GroupLayout(jPRaiz);
         jPRaiz.setLayout(jPRaizLayout);
         jPRaizLayout.setHorizontalGroup(
@@ -311,12 +333,13 @@ public class TestClean extends javax.swing.JFrame {
                 .addGroup(jPRaizLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jPSub1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(jPRaizLayout.createSequentialGroup()
-                        .addGroup(jPRaizLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jCheckBox9)
+                        .addGroup(jPRaizLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                             .addComponent(jCheckBox10)
-                            .addComponent(gTextField5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(gTextField5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jCheckBox9)
+                            .addComponent(artwork, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jTabbed1)))
+                        .addComponent(jTabbed1, javax.swing.GroupLayout.DEFAULT_SIZE, 484, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         jPRaizLayout.setVerticalGroup(
@@ -332,8 +355,10 @@ public class TestClean extends javax.swing.JFrame {
                         .addComponent(jCheckBox10)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jCheckBox9)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(artwork, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(0, 0, Short.MAX_VALUE))
-                    .addComponent(jTabbed1, javax.swing.GroupLayout.DEFAULT_SIZE, 232, Short.MAX_VALUE))
+                    .addComponent(jTabbed1))
                 .addContainerGap())
         );
 
@@ -396,6 +421,7 @@ public class TestClean extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JLabel artwork;
     private br.com.gmp.comps.textfield.GTextField gTextField1;
     private br.com.gmp.comps.textfield.GTextField gTextField2;
     private br.com.gmp.comps.textfield.GTextField gTextField3;
