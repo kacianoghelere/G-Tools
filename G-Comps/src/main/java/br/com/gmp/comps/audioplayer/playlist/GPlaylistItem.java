@@ -63,41 +63,62 @@ public class GPlaylistItem extends JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jPTrack = new javax.swing.JPanel();
+        jLArtwork = new javax.swing.JLabel();
+        JPInfo = new javax.swing.JPanel();
+        jLInfo = new javax.swing.JLabel();
         jLTitle = new javax.swing.JLabel();
         jLLength = new javax.swing.JLabel();
-        jLInfo = new javax.swing.JLabel();
 
-        setMinimumSize(new java.awt.Dimension(160, 42));
-        setPreferredSize(new java.awt.Dimension(180, 42));
+        setMaximumSize(new java.awt.Dimension(32767, 50));
+        setMinimumSize(new java.awt.Dimension(265, 50));
+        setPreferredSize(new java.awt.Dimension(265, 50));
+
+        jPTrack.setMaximumSize(new java.awt.Dimension(2147483647, 50));
+        jPTrack.setOpaque(false);
+        jPTrack.setPreferredSize(new java.awt.Dimension(0, 50));
+        jPTrack.setLayout(new java.awt.BorderLayout(3, 0));
+
+        jLArtwork.setIcon(new javax.swing.ImageIcon(getClass().getResource("/br/com/gmp/comps/icons/48/audio-file-48.png"))); // NOI18N
+        jLArtwork.setMaximumSize(new java.awt.Dimension(50, 50));
+        jLArtwork.setMinimumSize(new java.awt.Dimension(50, 50));
+        jLArtwork.setPreferredSize(new java.awt.Dimension(50, 50));
+        jPTrack.add(jLArtwork, java.awt.BorderLayout.LINE_START);
+
+        JPInfo.setMaximumSize(new java.awt.Dimension(2147483647, 30));
+        JPInfo.setOpaque(false);
+        JPInfo.setLayout(new java.awt.BorderLayout(1, 1));
+
+        jLInfo.setFont(new java.awt.Font("Ubuntu", 2, 12)); // NOI18N
+        jLInfo.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLInfo.setText("Artist - Album");
+        JPInfo.add(jLInfo, java.awt.BorderLayout.SOUTH);
 
         jLTitle.setFont(new java.awt.Font("Ubuntu", 1, 12)); // NOI18N
         jLTitle.setText("Title");
+        JPInfo.add(jLTitle, java.awt.BorderLayout.CENTER);
 
         jLLength.setFont(new java.awt.Font("Ubuntu", 1, 12)); // NOI18N
         jLLength.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLLength.setText("00:00");
+        JPInfo.add(jLLength, java.awt.BorderLayout.LINE_END);
 
-        jLInfo.setFont(new java.awt.Font("Ubuntu", 2, 12)); // NOI18N
-        jLInfo.setText("Artist - Album");
+        jPTrack.add(JPInfo, java.awt.BorderLayout.CENTER);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addComponent(jLTitle, javax.swing.GroupLayout.DEFAULT_SIZE, 129, Short.MAX_VALUE)
-                .addGap(0, 0, 0)
-                .addComponent(jLLength, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE))
-            .addComponent(jLInfo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGap(6, 6, 6)
+                .addComponent(jPTrack, javax.swing.GroupLayout.DEFAULT_SIZE, 253, Short.MAX_VALUE)
+                .addGap(6, 6, 6))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLTitle, javax.swing.GroupLayout.DEFAULT_SIZE, 19, Short.MAX_VALUE)
-                    .addComponent(jLLength, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addGap(0, 0, 0)
-                .addComponent(jLInfo, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addComponent(jPTrack, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -175,8 +196,11 @@ public class GPlaylistItem extends JPanel {
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JPanel JPInfo;
+    private javax.swing.JLabel jLArtwork;
     private javax.swing.JLabel jLInfo;
     private javax.swing.JLabel jLLength;
     private javax.swing.JLabel jLTitle;
+    private javax.swing.JPanel jPTrack;
     // End of variables declaration//GEN-END:variables
 }
