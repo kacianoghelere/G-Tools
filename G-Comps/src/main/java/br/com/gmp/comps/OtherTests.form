@@ -23,32 +23,29 @@
   <Layout>
     <DimensionLayout dim="0">
       <Group type="103" groupAlignment="0" attributes="0">
-          <Group type="102" attributes="0">
+          <Group type="102" alignment="0" attributes="0">
               <EmptySpace max="-2" attributes="0"/>
-              <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                  <Component id="gLookUpPane1" max="32767" attributes="0"/>
-                  <Component id="gFileField1" max="32767" attributes="0"/>
-              </Group>
+              <Component id="gImageSelector1" min="-2" max="-2" attributes="0"/>
               <EmptySpace max="32767" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
     <DimensionLayout dim="1">
       <Group type="103" groupAlignment="0" attributes="0">
-          <Group type="102" alignment="0" attributes="0">
-              <EmptySpace max="-2" attributes="0"/>
-              <Component id="gLookUpPane1" min="-2" max="-2" attributes="0"/>
-              <EmptySpace max="-2" attributes="0"/>
-              <Component id="gFileField1" min="-2" max="-2" attributes="0"/>
+          <Group type="102" alignment="1" attributes="0">
               <EmptySpace max="32767" attributes="0"/>
+              <Component id="gImageSelector1" min="-2" max="-2" attributes="0"/>
+              <EmptySpace max="-2" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
   </Layout>
   <SubComponents>
-    <Component class="br.com.gmp.comps.lookup.GLookUpPane" name="gLookUpPane1">
-    </Component>
-    <Component class="br.com.gmp.comps.textfield.file.GFileField" name="gFileField1">
+    <Component class="br.com.gmp.comps.selector.GImageSelector" name="gImageSelector1">
+      <Properties>
+        <Property name="minSize" type="int" value="16"/>
+        <Property name="image" type="java.lang.String" value="/home/kaciano/icons/audio-file-256.png"/>
+      </Properties>
     </Component>
   </SubComponents>
 </Form>
