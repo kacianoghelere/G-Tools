@@ -1,6 +1,8 @@
 package br.com.gmp.comps.audioplayer.playlist;
 
 import br.com.gmp.utils.audio.file.AudioFile;
+import java.awt.Image;
+import javax.swing.ImageIcon;
 import javax.swing.JPanel;
 
 /**
@@ -31,6 +33,9 @@ public class GPlaylistItem extends JPanel {
     public GPlaylistItem(AudioFile file) {
         this(file.getTitle(), file.getLength(), file.getArtist() + " - " + file.getAlbum(), file);
         initialize();
+        if (file.getArtwork() != null) {
+            jLArtwork.setIcon(new ImageIcon(file.getArtwork().getScaledInstance(48, 48, Image.SCALE_SMOOTH)));
+        }
     }
 
     /**

@@ -3,19 +3,18 @@ package br.com.gmp.utils.audio.file;
 import br.com.gmp.utils.annotations.ColumnName;
 import br.com.gmp.utils.annotations.Ignore;
 import java.awt.Image;
-import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.util.Objects;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.swing.ImageIcon;
 import org.jaudiotagger.audio.exceptions.InvalidAudioFrameException;
 import org.jaudiotagger.audio.exceptions.ReadOnlyFileException;
 import org.jaudiotagger.audio.mp3.MP3AudioHeader;
 import org.jaudiotagger.audio.mp3.MP3File;
 import org.jaudiotagger.tag.FieldKey;
 import org.jaudiotagger.tag.TagException;
+import org.jaudiotagger.tag.id3.AbstractID3v2Tag;
 import org.jaudiotagger.tag.id3.ID3v1Tag;
 
 /**
@@ -43,6 +42,8 @@ public class AudioFile implements Comparable<AudioFile> {
     private String encoding;
     @Ignore
     private String path;
+    @Ignore
+    private Image artwork;
     @Ignore
     private boolean executing;
 
@@ -88,8 +89,9 @@ public class AudioFile implements Comparable<AudioFile> {
         try {
             MP3File mp3File = new MP3File(file);
             ID3v1Tag tag = mp3File.getID3v1Tag();
-            if (tag.getFirstArtwork() != null) {
-                System.out.println("URL: " + tag.getFirstArtwork().getImageUrl());
+            AbstractID3v2Tag tag2 = mp3File.getID3v2Tag();
+            if (tag2.getFirstArtwork() != null) {
+                this.artwork = tag2.getFirstArtwork().getImage().getScaledInstance(128, 128, Image.SCALE_SMOOTH);
             }
             MP3AudioHeader header = mp3File.getMP3AudioHeader();
 
@@ -282,6 +284,15 @@ public class AudioFile implements Comparable<AudioFile> {
      */
     public void setExecuting(boolean executing) {
         this.executing = executing;
+    }
+
+    /**
+     * Retorna a imagem de arte do arquivo
+     *
+     * @return {@code ImageIcon} Imagem de arte do arquivo
+     */
+    public Image getArtwork() {
+        return artwork;
     }
 
     @Override
