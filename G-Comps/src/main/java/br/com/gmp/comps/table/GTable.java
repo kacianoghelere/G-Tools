@@ -256,7 +256,7 @@ public class GTable extends JTable implements TableControl, Exporter {
         if (maxRows != 0 && !list.isEmpty()) {
             this.pages = new CollectionUtil().splitList(list, maxRows);
         } else {
-            this.pages = new ArrayList[1];
+            this.pages = new List[1];
             this.pages[0] = list;
         }
         this.pageCount = pages.length;
