@@ -112,6 +112,16 @@
                     </execution>
                 </executions>
             </plugin>  
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-source-plugin</artifactId>
+                <version>3.0.0</version>
+                <configuration>
+                    <outputDirectory>/source</outputDirectory>
+                    <finalName>G-Utils.source</finalName>
+                    <attach>false</attach>
+                </configuration>
+            </plugin>
         </plugins>      
     </build>
 </project>
